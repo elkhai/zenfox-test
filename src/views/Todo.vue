@@ -1,9 +1,9 @@
 <template>
   <div>
-    <router-link to='/'>Go back</router-link>
-    <h2>{{selectedUser.name}}</h2>
-    <h3>{{userId}}</h3>
-    <todo v-bind:list="list"/>
+    <router-link to="/">Go back</router-link>
+    <h2>{{ selectedUser ? selectedUser.name : 'Users list not loaded. Please open home page first :)' }}</h2>
+    <h3>{{ userId }}</h3>
+    <todo v-bind:list="list" />
   </div>
 </template>
 <script lang="ts">
@@ -22,7 +22,7 @@
     },
     methods: {
       ...TodoModuleMapper.mapActions(['loadTodos']),
-      ...TodoModuleMapper.mapMutations(['setList']),
+      ...TodoModuleMapper.mapMutations(['setList'])
     },
     components: {
       todo: Todo

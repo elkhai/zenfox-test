@@ -1,14 +1,14 @@
 <template>
-  <Users />
+  <UsersTable />
 </template>
 
 <script>
-  import Users from '@/components/Users.vue'
+  import UsersTable from '@/components/UsersTable.vue'
 
   export default {
     name: 'home',
     components: {
-      Users
+      UsersTable
     }
   }
 </script>

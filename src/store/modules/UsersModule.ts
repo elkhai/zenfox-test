@@ -1,7 +1,8 @@
 import { Module, Mutations, Actions, createMapper, Getters } from 'vuex-smart-module'
 import { ApiService } from '@/services/ApiService'
+import router from '@/router'
 
-interface User {
+interface IUser {
   id: number
   name: string
   username: string
@@ -33,7 +34,8 @@ class UsersState {
   limit: number = 5
   page: number = 1
   total: number = 0
-  list: Array<User> = []
+  list: Array<IUser> = []
+  selectedUserIndex: number = NaN
 }
 
 class UsersGetters extends Getters<UsersState> {
@@ -41,13 +43,16 @@ class UsersGetters extends Getters<UsersState> {
     // Round to larger value(for cases, when backend may change total users count, and don't notify about that)
     return Math.ceil(this.state.total/this.state.limit)
   }
+  get selectedUser() {
+    return this.state.list[this.state.selectedUserIndex]
+  }
 }
 
 class UsersMutations extends Mutations<UsersState> {
   updateLoadingState(newState: loadingState) {
     this.state.loadingState = newState
   }
-  setUsersList(newList: Array<User>) {
+  setUsersList(newList: Array<IUser>) {
     this.state.list = newList
   }
   setTotalCount(newCount: number) {
@@ -55,6 +60,9 @@ class UsersMutations extends Mutations<UsersState> {
   }
   setPage(page: number) {
     this.state.page = page
+  }
+  setSelectedUserIndex(index: number) {
+    this.state.selectedUserIndex = index
   }
 }
 
@@ -78,6 +86,10 @@ class UsersActions extends Actions<UsersState, UsersGetters, UsersMutations, Use
   setPageAndLoadUsers(page:number) {
     this.commit('setPage', page)
     this.dispatch({ type: 'loadUsers' })
+  }
+  setSelectedUserIndexAndGoToTodoPage(payload: { index: number, userId: number }) {
+    this.commit('setSelectedUserIndex', payload.index)
+    router.push({ path: `/todo/${payload.userId}` })
   }
 }
 

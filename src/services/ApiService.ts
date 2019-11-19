@@ -5,7 +5,7 @@ export const ApiService = {
     return this.api().get('/users', { params: { _page, _limit } })
   },
 
-  getTodos(userId: number) {
+  getTodos(userId: string) {
     return this.api().get('/todos', { params: { userId } })
   },
 

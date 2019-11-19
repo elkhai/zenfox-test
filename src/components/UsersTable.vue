@@ -13,8 +13,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in list" v-bind:key="user.id">
-          <td>{{ user.username }}</td>
+        <tr v-for="(user, index) in list" v-bind:key="user.id">
+          <td><a v-on:click="setSelectedUserIndexAndGoToTodoPage({ index, userId: user.id })">{{ user.name }}</a ></td>
           <td>{{ user.email }}</td>
           <td>{{ user.phone }}</td>
         </tr>
@@ -37,7 +37,7 @@
       ...UsersModuleMapper.mapGetters(['pages'])
     },
     methods: {
-      ...UsersModuleMapper.mapActions(['loadUsers', 'setPageAndLoadUsers']),
+      ...UsersModuleMapper.mapActions(['loadUsers', 'setPageAndLoadUsers', 'setSelectedUserIndexAndGoToTodoPage']),
     }
   })
 
@@ -84,7 +84,6 @@
     background-color: rgba(255, 255, 255, .3);
   }
   .page {
-    cursor: pointer;
     display: inline-block;
     text-align: center;
     line-height: 28px;
